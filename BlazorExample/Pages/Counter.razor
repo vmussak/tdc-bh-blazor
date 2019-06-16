@@ -1,0 +1,39 @@
+﻿@page "/counter"
+
+@using Microsoft.JSInterop
+@inject IJSRuntime _jSRuntime
+
+@inject GeradorDeNumeros GeraNumeros
+
+<h1>Counter</h1>
+
+<p>Current count: @currentCount</p>
+
+<p>Número gerado: @numeroGerado</p>
+
+<button class="btn btn-primary" onclick="@IncrementCount">Click me</button>
+
+<button class="btn btn-primary" onclick="@Alert">Alert</button>
+
+<button class="btn btn-primary" onclick="@GerarNumero">Gerar número</button>
+
+@functions {
+    int currentCount = 0;
+    int numeroGerado = 0;
+
+    void IncrementCount()
+    {
+        currentCount++;
+    }
+
+    async void Alert()
+    {
+        await _jSRuntime.InvokeAsync<object>("funcoesJS.showAlert", "Alert vindo do JavaScript");
+    }
+
+    void GerarNumero()
+    {
+        numeroGerado = GeraNumeros.GerarNumero(1, 100);
+    }
+}
+
